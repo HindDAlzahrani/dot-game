@@ -9,7 +9,7 @@
   html, body {
     width: 100%; height: 100%;
     overflow: hidden;
-    background: #0a0a14;
+    background: #120f1a;
     touch-action: none;
     user-select: none;
     -webkit-user-select: none;
@@ -325,18 +325,26 @@
   }
 
   function drawBackground() {
-    // gradient bg
-    const grad = ctx.createLinearGradient(0, 0, 0, H);
-    grad.addColorStop(0, '#0a0a14');
-    grad.addColorStop(0.5, '#0d0d1a');
-    grad.addColorStop(1, '#0f0a18');
+    // warm dark gradient bg
+    const grad = ctx.createLinearGradient(0, 0, W * 0.3, H);
+    grad.addColorStop(0, '#14101e');   // deep warm navy
+    grad.addColorStop(0.35, '#1a1220');  // dark plum
+    grad.addColorStop(0.65, '#1e1018');  // burgundy-black
+    grad.addColorStop(1, '#18101a');   // muted wine
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, W, H);
 
-    // twinkling stars
+    // subtle warm vignette
+    const vig = ctx.createRadialGradient(W / 2, H / 2, H * 0.2, W / 2, H / 2, H * 0.9);
+    vig.addColorStop(0, 'rgba(30, 20, 28, 0)');
+    vig.addColorStop(1, 'rgba(8, 5, 10, 0.4)');
+    ctx.fillStyle = vig;
+    ctx.fillRect(0, 0, W, H);
+
+    // twinkling stars with warm tint
     for (const s of bgStars) {
       const a = 0.2 + 0.35 * Math.sin(time * s.speed + s.twinkle);
-      ctx.fillStyle = `rgba(200,210,255,${a})`;
+      ctx.fillStyle = `rgba(220,200,210,${a})`;
       ctx.beginPath();
       ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
       ctx.fill();
